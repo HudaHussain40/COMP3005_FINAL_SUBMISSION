@@ -1,0 +1,5 @@
+DATABASE_NAME = 'final_project_v1'
+USER = 'postgres'
+PASSWORD = '1234'
+HOST = 'localhost'
+PORT = '5432'
