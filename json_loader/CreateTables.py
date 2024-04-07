@@ -300,7 +300,6 @@ commands = (("season","""
                 position_id int ,
                 location_x decimal,
                 location_y decimal,
-                location_z decimal,
                 teammate boolean,
                 PRIMARY KEY (event_id, player_id)
             ) 
@@ -378,8 +377,7 @@ commands = (("season","""
             CREATE TABLE carry (
                 event_id uuid primary key ,
                 end_location_x decimal,
-                end_location_y decimal,
-                end_location_z decimal
+                end_location_y decimal
             ) 
         """),
         ("dribble",
@@ -423,7 +421,7 @@ commands = (("season","""
          """ 
             CREATE TABLE duel_type (
                 id int primary key,
-                name TEXT
+                name TEXT not null
             ) 
         """),
         ("duel",
