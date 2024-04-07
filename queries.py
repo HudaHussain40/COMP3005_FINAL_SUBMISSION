@@ -168,7 +168,19 @@ def Q_1(cursor, conn, execution_time):
     #==========================================================================
     # Enter QUERY within the quotes:
 
-    query = """ """
+    query = """ 
+        select player.player_name, avg(statsbomb_xg) as average_shots from shot
+        join event on shot.event_id = event.id
+        join match on event.match_id = match.match_id 
+        join competition on match.competition_id = competition.competition_id
+        and competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id
+        and season_name = '2020/2021'
+        join player on event.player_id = player.player_id
+        group by player.player_id
+        order by average_shots desc
+        """
 
     #==========================================================================
 
@@ -187,7 +199,19 @@ def Q_2(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
 
-    query = """ """
+    query = """
+        select player.player_name, count(shot) as shot_count from shot
+        join event on shot.event_id = event.id
+        join match on event.match_id = match.match_id 
+        join competition on match.competition_id = competition.competition_id
+        and competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = '2020/2021'
+        join player on event.player_id = player.player_id
+        group by player.player_id
+        order by shot_count desc
+        """
 
     #==========================================================================
 
@@ -206,7 +230,20 @@ def Q_3(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """ 
+        select player.player_name, count(shot) as shot_count from shot
+        join event on shot.event_id = event.id 
+        and shot.first_time = true
+        join match on event.match_id = match.match_id 
+        join competition on match.competition_id = competition.competition_id
+        and competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season_name = any(array['2020/2021', '2019/2020', '2018/2019'])
+        join player on event.player_id = player.player_id
+        group by player.player_id
+        order by shot_count desc
+        """
 
     #==========================================================================
 
@@ -224,7 +261,19 @@ def Q_4(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """
+        select team.team_name, count(pass) as passes from pass
+        join event on pass.event_id = event.id
+        join match on event.match_id = match.match_id
+        join competition on match.competition_id = competition.competition_id
+        and competition.competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = '2020/2021'
+        join team on event.team_id = team.team_id
+        group by team.team_name
+        order by passes desc
+        """
 
     #==========================================================================
 
@@ -242,7 +291,19 @@ def Q_5(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """ 
+        select player.player_name, count (pass) as passes from pass
+        join event on pass.event_id = event.id
+        join match on event.match_id = match.match_id
+        join competition on match.competition_id = competition.competition_id
+        and competition.competition_name = 'Premier League'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = '2003/2004'
+        join player on player.player_id = recipient_id
+        group by player.player_id
+        order by passes desc
+        """
 
     #==========================================================================
 
@@ -260,7 +321,19 @@ def Q_6(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """ 
+        select team.team_name, count(shot) as shot_count from shot
+        join event on shot.event_id = event.id
+        join match on event.match_id = match.match_id 
+        join competition on match.competition_id = competition.competition_id
+        and competition_name = 'Premier League'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season_name = '2003/2004'
+        join team on event.team_id = team.team_id
+        group by team.team_id
+        order by shot_count desc
+        """
 
     #==========================================================================
 
@@ -278,7 +351,20 @@ def Q_7(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """ 
+        select player.player_name, count (pass) as passes from pass
+        join event on pass.event_id = event.id
+        and pass.through_ball = true
+        join match on event.match_id = match.match_id
+        join competition on match.competition_id = competition.competition_id
+        and competition.competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = '2020/2021'
+        join player on player.player_id = event.player_id
+        group by player.player_id
+        order by passes desc
+        """
 
     #==========================================================================
 
@@ -296,7 +382,20 @@ def Q_8(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """ 
+        select team.team_name, count (pass) as passes from pass
+        join event on pass.event_id = event.id
+        and pass.through_ball = true
+        join match on event.match_id = match.match_id
+        join competition on match.competition_id = competition.competition_id
+        and competition.competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = '2020/2021'
+        join team on team.team_id = event.team_id
+        group by team.team_name
+        order by passes desc
+        """
 
     #==========================================================================
 
@@ -314,7 +413,21 @@ def Q_9(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """ 
+        select player.player_name, count(dribble) as successful_dribbles from dribble
+        join outcome on dribble.outcome_id = outcome.id
+        and outcome.name = 'Complete'
+        join event on event.id = dribble.event_id
+        join match on event.match_id = match.match_id
+        join competition on competition.competition_id = match.competition_id
+        and competition.competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = any(array['2020/2021', '2019/2020', '2018/2019'])
+        join player on player.player_id = event.player_id
+        group by player.player_id
+        order by successful_dribbles desc
+        """
 
     #==========================================================================
 
@@ -332,7 +445,20 @@ def Q_10(cursor, conn, execution_time):
     #==========================================================================    
     # Enter QUERY within the quotes:
     
-    query = """ """
+    query = """
+        select player.player_name, count(event) as dribbled_past from event
+        join event_type on event.type_id = event_type.id
+        and event_type.name = 'Dribbled Past'
+        join match on event.match_id = match.match_id
+        join competition on competition.competition_id = match.competition_id
+        and competition.competition_name = 'La Liga'
+        and competition.season_id = match.season_id
+        join season on match.season_id = season.season_id 
+        and season.season_name = '2020/2021'
+        join player on player.player_id = event.player_id
+        group by player.player_id
+        order by dribbled_past desc
+        """
 
     #==========================================================================
 

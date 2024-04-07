@@ -199,8 +199,8 @@ def createReferences():
             except Exception as e:
                  print(e)
                  
-indexes = {"event": ["player_id", "match_id"],
-           "match": ["season_id", "competition_id"]}
+indexes = {"event": ["type_id"]
+           }
 def createIndexes():
      for table in indexes:
             try:

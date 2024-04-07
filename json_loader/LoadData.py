@@ -42,7 +42,7 @@ def loadData():
     loadMatches()
 
 def loadCompetitions():
-    with open(os.path.abspath('json_loader/data/competitions.json'), encoding="utf8") as f:
+    with open(os.path.abspath('./data/competitions.json'), encoding="utf8") as f:
         data = json.load(f);
         for competition in data:
             if(competition['season_name'] in seasons):
@@ -61,25 +61,25 @@ def addCompetition(competition):
     
 
 def loadMatches():
-    competitions = os.listdir(os.path.abspath('json_loader/data/matches'));
+    competitions = os.listdir(os.path.abspath('./data/matches'));
     for competition in competitions:
         if(competition in competition_ids):
-            seasons = os.listdir(os.path.abspath(f'json_loader/data/matches/{competition}'));
+            seasons = os.listdir(os.path.abspath(f'./data/matches/{competition}'));
             for season in seasons:
                 if(Path(season).stem in season_ids):
-                    with open(os.path.abspath(f'json_loader/data/matches/{competition}/{season}'), encoding="utf8") as f:
+                    with open(os.path.abspath(f'./data/matches/{competition}/{season}'), encoding="utf8") as f:
                         data = json.load(f);
                         for match in data:
                             match["competition_id"] = match["competition"]["competition_id"]
                             match["season_id"] = match["season"]["season_id"]
                             addMatch(match)
                             
-                            with open(os.path.abspath(f'json_loader/data/lineups/{match["match_id"]}.json'), encoding="utf8") as f:
+                            with open(os.path.abspath(f'./data/lineups/{match["match_id"]}.json'), encoding="utf8") as f:
                                 data = json.load(f)
                                 for lineup in data:
                                     lineup["match_id"] = match["match_id"]
                                     addLineUp(lineup)
-                            with open(os.path.abspath(f'json_loader/data/events/{match["match_id"]}.json'), encoding="utf8") as f:
+                            with open(os.path.abspath(f'./data/events/{match["match_id"]}.json'), encoding="utf8") as f:
                                 data = json.load(f)
                                 for event in data:
                                     event["match_id"] = match["match_id"]
