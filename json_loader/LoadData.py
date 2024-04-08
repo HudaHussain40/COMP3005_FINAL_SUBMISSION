@@ -208,6 +208,11 @@ def addEvent(event):
         createInsertSQL(event["type"], "event_type")
         event["type_id"] = event["type"]["id"]
         event_type_name = event["type"]["name"].lower().replace(" ", "_").replace("*","")
+        if(event_type_name == '50/50'):
+            event_type_name = 'fifty_fifty'
+        if (event_type_name == 'goal_keeper'):
+            event_type_name = 'goalkeeper'
+
         del event["type"]
         if("play_pattern" in event):
             event["play_pattern_id"] = event["play_pattern"]["id"]
@@ -221,23 +226,24 @@ def addEvent(event):
         if("related_events" in event):
             del event["related_events"]
         tactics = None
-        event_values = None
+
         if("tactics" in event):
             tactics = event["tactics"]
             del event["tactics"]
-        goalkeeper = None
-        fifty_fifty = None
 
-        if ("goalkeeper" in event):
-            goalkeeper = event["goalkeeper"]
-            del event["goalkeeper"]
-        if ("50_50" in event):
-            fifty_fifty = event["50_50"]
-            del event["50_50"]
-        if(event_type_name in event):
-            event_values = event[event_type_name]
+
+        if(event_type_name in tables_and_columns):
+            event_values = {}
+            if(event_type_name == 'fifty_fifty'):
+                if('50_50' in event):
+                    event_values = event['50_50']
+                    del event['50_50']
+            else:
+                if(event_type_name in event):
+                    event_values = event[event_type_name]
+                    del event[event_type_name]
             event_values["event_id"] = event["id"]
-            del event[event_type_name]
+            addEventValues(event_values, event_type_name)
         
         expandLocation(event)
         try:
@@ -245,9 +251,8 @@ def addEvent(event):
         except Exception as e:
             print(e)
             print("couldn't add event to database")
-        if(event_values):
 
-            addEventValues(event_values, event_type_name)
+            
         
         if(tactics):
             lineups = tactics["lineup"]
@@ -262,12 +267,7 @@ def addEvent(event):
                 del lineup["position"]
                 del lineup["jersey_number"]
                 createInsertSQL(lineup, "tactic")
-        if(fifty_fifty):
-            fifty_fifty["event_id"] = event["id"]
-            addEventValues(fifty_fifty, "fifty_fifty")
-        if(goalkeeper):
-            goalkeeper["event_id"] = event["id"]
-            addEventValues(goalkeeper, "goalkeeper")
+       
 def extractKeyID(dictionary, extract):
     for key in extract:
         if key in dictionary:
